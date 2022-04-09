@@ -1,0 +1,107 @@
+@primary: #1c69d4;
+@Black: #262626;
+@light-primary: #0653B6;
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+  color: #fff;
+  background-color: #0653b6;
+  border-color: #0653b6;
+}
+.ant-pro-sider-menu-sider{
+  background-color: #0653B6;
+  .ant-pro-sider-menu-logo {
+    background: #6CB4F6;
+  }
+  .ant-pro-sider-menu-logo h1 {
+    color: #fff;
+  }
+  .ant-menu.ant-menu-inline.ant-menu-sub {
+    background: #fff;
+  }
+  .ant-menu.ant-menu-inline.ant-menu-root.ant-menu-light {
+    background: #0653B6;
+  }
+  .ant-menu-item.ant-menu-item-selected {
+    background: #6CB4F6;
+  }
+  .ant-menu-item {
+    a {
+      color: #262626;
+      &:hover {
+        color: @primary;
+      }
+    }
+  }
+}
+
+.ant-radio-checked {
+  .ant-radio-inner {
+    background-color: @primary;
+  }
+  .ant-layout-sider-children .ant-menu.ant-menu-inline.ant-menu-root.ant-menu-light {
+    background-color: #6CB4F6!important;
+    height: 600px;
+  }
+  .ant-menu-dark, .ant-menu-dark .ant-menu-sub{
+    background-color: #6CB4F6!important;
+    height: 600px;
+  }
+  .ant-radio-inner:after {
+    width: 4px;
+    height: 4px;
+    left: 5px;
+    top: 5px;
+    background-color: #fff;
+  }
+}
+.ant-switch {
+  border-radius: 0;
+  background-color: #8e8e8e;
+}
+.ant-switch.ant-switch-checked {
+  border-radius: 0;
+  background-color: @primary;
+}
+.ant-switch::after {
+  border-radius: 0;
+  background-color: #4d4d4d;
+}
+.ant-switch-checked.ant-switch::after {
+  border-radius: 0;
+  background-color: #fff;
+}
+.ant-layout-sider {
+  background: @light-primary;
+  .ant-menu-dark {
+    background: @light-primary;
+  }
+}
+.ant-btn-primary {
+  &:active{
+    background: #508CE5;
+  }
+}
+.subbtn{
+  //color: #051A65;
+  color: @primary;
+  &:hover{
+    background: rgba(28, 96, 212, 0.2);
+  }
+  &:active{
+    background: rgba(28, 96, 212, 0.1);
+  }
+}
+.primaryBtnDisabled{
+  background: rgba(28, 105, 212, 0.3);
+  border:1px #A3CDFA;
+}
+.subbtnDisabled {
+  background: transparent!important;
+  border:1px solid #DCDCDC;
+  color: #BBBBBB!important;
+}
+//.ant-pro-sider-menu-logo {
+//  background: #6CB4F6;
+//}
+.ant-menu-dark, .ant-menu-dark.ant-menu-sub{
+  color: #fff;
+}

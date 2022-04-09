@@ -1,0 +1,69 @@
+@Library('ATCLibraries') _
+import com.bba.atc.jenkins.pipeline.Pipeline
+import com.bba.atc.jenkins.pipeline.PipelineImpl
+Pipeline jenkinsPipeline = new PipelineImpl(this)
+pipeline {
+//**************************************************//
+//Please set the parameters following environment section according to your actual situation of project.
+    environment {
+        git_branch = 'master'
+		git_url = 'https://atc.bmw-brilliance.cn/bitbucket/scm/bbfarchitecture/vue-quick-setup.git'
+		author = 'u0029467'
+        compile_type = 'vue'
+		compile_command = 'npm install --unsafe-perm=true --allow-root; npm run build:uat'
+		pom_path = './'
+		artifact_file = 'dist'
+        module_path = ''
+		source_code_path = './'
+		test_code_path = ''
+		quality_gate = 'true'
+		project_name = 'BBF-41_Archi'
+        user_email_list = 'Hongda.Wang@bmw-brilliance.cn'
+        PowerShell = 'deployment.ps1' 
+    }
+//*************************************************//
+//Please do not modify the following section.
+    agent {
+      kubernetes { 
+        cloud 'kubernetes' 
+        label 'nodejs12.4'
+        defaultContainer 'jenkins-agent'
+      }
+    }
+    options{
+      timeout(time:1,unit: 'HOURS')
+      skipStagesAfterUnstable()
+      disableConcurrentBuilds()
+      buildDiscarder(logRotator(numToKeepStr: '7'))
+      timestamps()
+    }
+    tools {
+        maven 'Maven3.5.3'
+        jdk 'JDK1.8.0_151'
+	}
+    post {
+        always{
+			script{
+				jenkinsPipeline.sendMail(env);
+            }
+        }
+    }
+	stages {
+        stage('Pull Source code') {
+            steps {
+                script{
+                    jenkinsPipeline.pullCode(env)
+                }
+            }
+        }
+        stage('Build Project & Unit Test') {
+            steps {
+                script{
+                    jenkinsPipeline.compileCode(env)
+                    sh "zip -q -r dist.zip dist/* "
+                }
+                archiveArtifacts "**/dist.zip"
+            }
+        }
+    }
+}

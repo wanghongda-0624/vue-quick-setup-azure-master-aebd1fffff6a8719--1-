@@ -1,0 +1,52 @@
+@Library('ATCLibraries') _
+import com.bba.atc.jenkins.pipeline.Pipeline
+import com.bba.atc.jenkins.pipeline.PipelineImpl
+Pipeline jenkinsPipeline = new PipelineImpl(this)
+pipeline {
+    agent {label 'windows'  }
+
+    options { 
+        skipStagesAfterUnstable()
+        buildDiscarder(logRotator(numToKeepStr: '7'))
+        timestamps()
+    }
+
+    environment {
+        git_url = 'https://atc.bmw-brilliance.cn/bitbucket/scm/bbfarchitecture/vue-quick-setup.git'
+        git_branch = 'master'
+    }
+
+    stages {
+  
+	    stage ('Trigger VUE-quick-setup') {
+            steps {
+                build 'VUE-quick-setup'
+            }
+        }
+	
+        stage('Pull Source code') {
+            steps {
+                script{
+                    jenkinsPipeline.pullCode(env)
+                }
+            }
+        }	
+ 
+		stage ('Copy Archive') { 
+            steps {
+                script {
+                    step ([$class: 'CopyArtifact',
+                        projectName: 'VUE-quick-setup',
+						fallbackToLastSuccessful:false,
+                        filter: "**/dist.zip",
+                        target: './']);
+                }
+            }
+        }			
+		stage ('Deployment') {
+                steps {			
+                    powershell(returnStatus: true, script: 'frontend/deployment.ps1')
+                }
+		}
+   }
+}

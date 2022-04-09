@@ -1,0 +1,157 @@
+@import '~ant-design-vue/es/style/themes/default.less';
+@import './assets/css/bmw-primary.less';
+
+@font-face{
+  font-family: 'BMW Group Bold';
+  src: url('./assets/font/BMWGroup/BMWTypeNextLatinTT-Bold.ttf');
+}
+@font-face{
+  font-family: 'BMW Group Light';
+  src: url('./assets/font/BMWGroup/BMWTypeNextLatinTT-Light.ttf');
+}
+@font-face{
+  font-family: 'BMW Group Regular';
+  src: url('./assets/font/BMWGroup/BMWTypeNextLatinTT-Regular.ttf');
+}
+@font-face{
+  font-family: 'BMW Group Thin';
+  src: url('./assets/font/BMWGroup/BMWTypeNextLatinTT-Thin.ttf');
+}
+
+
+html,
+body,
+#app, #root {
+  height: 100%;
+}
+* {
+  font-family: 'BMW Group Regular', 'Microsoft YaHei', 'SimSun', 'sans-serif' !important;
+}
+
+.colorWeak {
+  filter: invert(80%);
+}
+.ant-layout.layout-basic {
+  height: 100vh;
+  min-height: 100vh;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+.ant-layout {
+  background: #f2f2f2;
+}
+// 数据列表 样式
+.table-alert {
+  margin-bottom: 16px;
+}
+.ant-table-tbody {
+  tr {
+    td {
+      border-color: #e6e6e6;
+    }
+  }
+}
+// 数据列表 操作
+.table-operator {
+  margin-bottom: 18px;
+
+  button {
+    margin-right: 8px;
+  }
+}
+// 数据列表 搜索条件
+.table-page-search-wrapper {
+
+  .ant-form-inline {
+    .ant-form-item {
+      display: flex;
+      margin-bottom: 24px;
+      margin-right: 0;
+
+      .ant-form-item-control-wrapper {
+        flex: 1 1;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      > .ant-form-item-label {
+        line-height: 32px;
+        padding-right: 8px;
+        width: auto;
+      }
+      .ant-form-item-control {
+        height: 32px;
+        line-height: 32px;
+      }
+    }
+  }
+
+  .table-page-search-submitButtons {
+    display: block;
+    margin-bottom: 24px;
+    white-space: nowrap;
+  }
+}
+// footer padding
+.ant-layout-footer {
+  padding: 0;
+}
+// doc page style
+.demo {
+  padding: 10px 0;
+  .ant-btn {
+    margin-right: 8px;
+    margin-bottom: 12px;
+  }
+}
+.code-expand-icon-show {
+  cursor: pointer;
+  opacity: 0.55;
+  pointer-events: auto;
+}
+.code-box-actions {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px dashed #ebedf0;
+  margin-bottom: -10px;
+}
+
+.el-icon-bba-loading{
+  background: url("assets/icons/loading.gif") center no-repeat;
+  background-size: cover;
+}
+.el-icon-bba-loading:before{
+  content: "替";//\8d3a
+  font-size: 40px;
+  visibility: hidden;
+}
+
+@media (max-width: @screen-xs) {
+  .ant-table {
+    width: 100%;
+    overflow-x: auto;
+    &-thead > tr,
+    &-tbody > tr {
+      > th,
+      > td {
+        white-space: pre;
+        > span {
+          display: block;
+        }
+      }
+    }
+  }
+}

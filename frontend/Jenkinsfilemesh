@@ -1,0 +1,82 @@
+@Library('ATCLibraries') _
+import com.bba.atc.jenkins.pipeline.Pipeline
+import com.bba.atc.jenkins.pipeline.PipelineImpl
+Pipeline jenkinsPipeline = new PipelineImpl(this)
+pipeline {
+//**************************************************//
+//Please set the parameters following environment section according to your actual situation of project.
+    environment {
+        git_branch = 'master'
+		git_url = 'https://atc.bmw-brilliance.cn/bitbucket/scm/bbfarchitecture/vue-quick-setup.git'
+		author = 'uf300707'
+        compile_type = 'vue'
+		compile_command = 'npm install --unsafe-perm=true --allow-root; npm run build:dev'
+		pom_path = './'
+		artifact_file = 'dist'
+        dockerfile = 'docker/DockerMeshfile'
+		docker_args = ''
+		openshift_cluster = 'BBF-412_Istiotest1_dev'
+		image_name = ''
+		openshift_project = 'istiotest1'
+		openshift_app_name = 'frontendmesh'
+		openshift_env = 'openshift4_dev'
+        user_email_list = 'Shuai.Shao@partner.bmw-brilliance.cn'
+    }
+//*************************************************//
+//Please do not modify the following section.
+    agent {
+       kubernetes { 
+        cloud 'kubernetes' 
+        label 'nodejs12.4'
+        defaultContainer 'jenkins-agent'
+      }
+    }
+    options{
+      timeout(time:1,unit: 'HOURS')
+      skipStagesAfterUnstable()
+      disableConcurrentBuilds()
+      buildDiscarder(logRotator(numToKeepStr: '7'))
+      timestamps()
+    }
+    tools {
+        maven 'Maven3.5.3'
+        jdk 'JDK1.8.0_151'
+	}
+    post {
+        always{
+			script{
+				jenkinsPipeline.sendMail(env);
+            }
+        }
+    }
+	stages {
+        stage('Pull Source code') {
+            steps {
+                script{
+                    jenkinsPipeline.pullCode(env)
+                }
+            }
+        }
+        stage('Build Project & Unit Test') {
+            steps {
+                script{
+                    jenkinsPipeline.compileCode(env)
+                }
+            }
+        }
+	    stage('Build Docker Image') {
+            steps {
+                script{
+                    jenkinsPipeline.dockerImage(env)
+                }
+            }
+        }
+        stage('Deploy To OpenShift'){
+            steps{
+                script{
+                    jenkinsPipeline.deployToOpenshift(env)
+                }
+            }
+        }
+    }
+}
